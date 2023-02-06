@@ -1,42 +1,55 @@
-# Complete project details at https://RandomNerdTutorials.com
+import network
+import socket
+import time
 
-def web_page():
-    if led.value() == 1:
-        gpio_state = "ON"
-    else:
-        gpio_state = "OFF"
+ssid = 'SSID'
+password = 'PASSWORD'
 
-    html = """<html><head> <title>ESP Web Server</title> <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="data:,"> <style>html{font-family: Helvetica; display:inline-block; margin: 0px auto; text-align: center;}
-  h1{color: #0F3376; padding: 2vh;}p{font-size: 1.5rem;}.button{display: inline-block; background-color: #e7bd3b; border: none; 
-  border-radius: 4px; color: white; padding: 16px 40px; text-decoration: none; font-size: 30px; margin: 2px; cursor: pointer;}
-  .button2{background-color: #4286f4;}</style></head><body> <h1>ESP Web Server</h1> 
-  <p>GPIO state: <strong>""" + gpio_state + """</strong></p><p><a href="/?led=on"><button class="button">ON</button></a></p>
-  <p><a href="/?led=off"><button class="button button2">OFF</button></a></p></body></html>"""
-    return html
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect(ssid, password)
 
+# Wait for connect or fail
+max_wait = 10
+while max_wait > 0:
+    if wlan.status() < 0 or wlan.status() >= 3:
+        break
+    max_wait -= 1
+    print('waiting for connection...')
+    time.sleep(1)
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('', 80))
-s.listen(5)
+# Handle connection error
+if wlan.status() != 3:
+    raise RuntimeError('network connection failed')
+else:
+    print('connected')
+    status = wlan.ifconfig()
+    print('ip = ' + status[0])
 
+# Open socket
+addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
+
+s = socket.socket()
+s.bind(addr)
+s.listen(1)
+
+# Listen for connections
 while True:
-    conn, addr = s.accept()
-    print('Got a connection from %s' % str(addr))
-    request = conn.recv(1024)
-    request = str(request)
-    print('Content = %s' % request)
-    led_on = request.find('/?led=on')
-    led_off = request.find('/?led=off')
-    if led_on == 6:
-        print('LED ON')
-        led.value(1)
-    if led_off == 6:
-        print('LED OFF')
-        led.value(0)
-    response = web_page()
-    conn.send('HTTP/1.1 200 OK\n')
-    conn.send('Content-Type: text/html\n')
-    conn.send('Connection: close\n\n')
-    conn.sendall(response)
-    conn.close()
+    try:
+        client, addr = s.accept()
+        print('clientient connected from', addr)
+
+        request = client.recv(512)
+        # print(request):
+        # b'GET / HTTP/1.1\r\nHost: 192.168.1.77\r\nConnection: keep-alive\r\nUpgrade-Insecure-Requests: 1\r\nUser-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\nAccept-Encoding: gzip, deflate\r\nAccept-Language: pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7\r\n\r\n'
+
+        request = str(request)
+        response = "XD"
+
+        client.send('HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n')
+        client.send(response)
+        client.close()
+
+    except OSError as e:
+        client.close()
+        print('connection clientosed')
