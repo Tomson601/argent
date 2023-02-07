@@ -31,3 +31,11 @@ s.listen(1)
 while True:
     argent.listen(socket)
 ```
+# DOCS:
+### Sample url_linker:
+  {'route': '/hello/world', 'function': <function hello_world at 0x2000bf00>}  
+  {'route': '/api', 'function': <function hello_world at 0x2000c0f0>}  
+  {'route': '/controll/pico', 'function': <function hello_world at 0x2000c170>}  
+  {'route': '/weather', 'function': <function hello_world at 0x2000c1f0>}  
+  {'route': '/controll/esp8266', 'function': <function hello_world at 0x2000c270>}  
+  
