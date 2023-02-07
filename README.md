@@ -10,7 +10,7 @@ Argent is a simple and lightweight web-framework for MicroPython.
 
 # Example:
 ```python
-import argent
+import argent, socket
 
 @argent.route("/hello/world")
 def hello_world(request):
@@ -19,7 +19,13 @@ def hello_world(request):
 # connect to wi-fi
 
 # create socket
+addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
 
+s = socket.socket()
+s.bind(addr)
+s.listen(1)
+
+# run argent client
 while True:
     argent.listen(socket)
 ```
