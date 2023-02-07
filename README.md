@@ -7,7 +7,7 @@ Argent is a simple and lightweight web-framework for MicroPython.
 - add custom http_headers option  
 - create docs  
 - add favicon.ico support  
-- create API root, with all url's  
+- ✅ create API root, with all url's  
 
 
 # Example:
