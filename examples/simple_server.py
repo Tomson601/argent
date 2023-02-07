@@ -1,9 +1,3 @@
-# Find out about hardware:
-# import os
-
-# if os.uname().machine == "Raspberry Pi Pico W with RP2040":
-#     print("RP2")
-
 import network
 import socket
 import time
@@ -40,12 +34,23 @@ s = socket.socket()
 s.bind(addr)
 s.listen(1)
 
-
+# Define response as html file
+html = open("example.html", "r").read()
 @argent.route("/hello/world")
 def hello_world_url(request):
-    return(200, {}, "Hello world!")
+    return(200, {}, html)
+
+# Or raw text
+@argent.route("/")
+def api(request):
+    return(200, {}, "API root")
+
+# Define favicon file:
+@argent.route("/favicon.ico")
+def favicon(request):
+    return(200, {}, "favicon.file")
+
 
 # Listen for connections
 while True:
     argent.listen(s)
-

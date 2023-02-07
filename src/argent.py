@@ -48,7 +48,7 @@ def listen(socket):
     print(f'New connection from: {addrress}')
 
     request = client.recv(BUFFER_SIZE)
-
+    print("\n", request, "\n")
     route = __get_route(request)
 
     function = __get_route_function(route)
@@ -57,7 +57,8 @@ def listen(socket):
         code, headers, response = function(request)
         __send_respone(client, code, http_headers, response)
     else:
-        __send_respone(client, 404, http_headers, "ERROR 404, not found")
+        with open("404.html", "r") as html_404:
+            __send_respone(client, 404, http_headers, html_404.read())
 
 
 def route(url, methods='GET'):
