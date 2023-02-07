@@ -3,18 +3,22 @@ Argent is a simple and lightweight web-framework for MicroPython.
 
 # TODO:
 - beautify pyproject.toml  
+- add post and put methods  
+- add custom http_headers option  
+- create docs  
+
 
 # Example:
 ```python
 import argent
 
-@argent.url("/hello/world")
-def hello_url(request):
-    return(200, {}, 'Hello url!')
+@argent.route("/hello/world")
+def hello_world(request):
+    return(200, {}, "Hello from Argent framework!")
 
-# this_section --> connect to wi-fi
+# connect to wi-fi
 
-# this section --> create socket
+# create socket
 
 while True:
     argent.listen(socket)
