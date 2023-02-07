@@ -3,7 +3,7 @@ Argent is a simple and lightweight web-framework for MicroPython.
 
 # TODO:
 - beautify pyproject.toml  
-- add post and put methods  
+- ✅ add post and put methods  
 - add custom http_headers option  
 - create docs  
 - add favicon.ico support  
