@@ -40,6 +40,11 @@ s = socket.socket()
 s.bind(addr)
 s.listen(1)
 
+
+@argent.route("/hello/world")
+def hello_world_url(request):
+    return(200, {}, "Hello world!")
+
 # Listen for connections
 while True:
     argent.listen(s)
