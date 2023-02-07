@@ -45,13 +45,12 @@ def __get_route_function(route):
 
 def listen(socket):
     client, addrress = socket.accept()
-    print(f'New connection from: {addrress}')
-
     request = client.recv(BUFFER_SIZE)
-    print("\n", request, "\n")
     route = __get_route(request)
-
     function = __get_route_function(route)
+
+    print(f'New connection from: {addrress}')
+    print("\n", request, "\n")
 
     if function != None:
         code, headers, response = function(request)
