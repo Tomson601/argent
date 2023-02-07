@@ -6,11 +6,13 @@ Argent is a simple and lightweight web-framework for MicroPython.
 - add post and put methods  
 - add custom http_headers option  
 - create docs  
+- add favicon.ico support  
+- ✅ create API root, with all url's  
 
 
 # Example:
 ```python
-import argent
+import argent, socket
 
 @argent.route("/hello/world")
 def hello_world(request):
@@ -19,7 +21,21 @@ def hello_world(request):
 # connect to wi-fi
 
 # create socket
+addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
 
+s = socket.socket()
+s.bind(addr)
+s.listen(1)
+
+# run argent client
 while True:
     argent.listen(socket)
 ```
+# DOCS:
+### Sample url_linker:
+  {'route': '/hello/world', 'function': <function hello_world at 0x2000bf00>}  
+  {'route': '/api', 'function': <function hello_world at 0x2000c0f0>}  
+  {'route': '/controll/pico', 'function': <function hello_world at 0x2000c170>}  
+  {'route': '/weather', 'function': <function hello_world at 0x2000c1f0>}  
+  {'route': '/controll/esp8266', 'function': <function hello_world at 0x2000c270>}  
+  
