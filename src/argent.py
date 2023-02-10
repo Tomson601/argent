@@ -1,3 +1,6 @@
+import json
+
+
 BUFFER_SIZE = 512
 url_linker = []
 
@@ -16,6 +19,14 @@ def __get_method(request):
     method = response_array[0].split(' ')[0]
 
     return method
+
+
+def __extract_payload(request):
+    request_lines = request.split(b'\r\n')
+    payload_start_index = request_lines.index(b'') + 1
+    payload = b'\r\n'.join(request_lines[payload_start_index:])
+
+    return json.loads(payload.decode('utf-8'))
 
 
 def __validate_method(method, route):
@@ -93,6 +104,10 @@ def listen(socket):
 
     print(f'New connection from: {addrress}')
     print("\n", request, "\n")
+
+    if method == 'POST' or method == 'PUT':
+        payload = __extract_payload(request)
+        print(payload)
 
     if function != None:
         # Check if method is defined

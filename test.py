@@ -1,23 +1,14 @@
-code = 200
-
-main_header = f'HTTP/1.0 {code} OK\r\nContent-type: text/html\r\n\r\n'
-headers = [
-    "Content-Type: text/html; charset=UTF-8",
-    "Cache-Control: max-age=3600, public",
-    "Content-Type: text/html; charset=UTF-8",
-    "Last-Modified: Sat, 28 Nov 2009 03:50:37 GMT",
-    "X-Pingback: https://code.tutsplus.com/xmlrpc.php",
-    "Content-Encoding: gzip",
-    "Vary: Accept-Encoding, Cookie, User-Agent"]
+data =  b'POST /weather HTTP/1.1\r\nContent-Type: application/json\r\nUser-Agent: PostmanRuntime/7.29.2\r\nAccept: */*\r\nPostman-Token: 936a07f8-0729-47ca-b394-6c29669ce03f\r\nHost: 192.168.1.77:90\r\nAccept-Encoding: gzip, deflate, br\r\nConnection: keep-alive\r\nContent-Length: 52\r\n\r\n{\n    "temperature": 36.6,\n    "humidtitidi": 45.0\n}' 
 
 
-def __create_combined_headers(main_header, headers):
-    combined_header = main_header
-    for header in headers:
-        combined_header += header + "\n"
-    return bytes(combined_header, 'utf-8')
+import json
 
+def __extract_payload(request):
+    request_lines = request.split(b'\r\n')
+    payload_start_index = request_lines.index(b'') + 1
+    payload = b'\r\n'.join(request_lines[payload_start_index:])
+    return json.loads(payload.decode('utf-8'))
 
-headers = __create_combined_headers(main_header, headers)
+payload=__extract_payload(data)
 
-print(headers)
+print(payload)
