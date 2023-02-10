@@ -1,7 +1,4 @@
 BUFFER_SIZE = 512
-
-http_headers = 'HTTP/1.0 200 OK\r\nContent-type: text/html\r\n\r\n'
-
 url_linker = []
 
 
@@ -30,10 +27,23 @@ def __validate_method(method, route):
 
 
 def __send_respone(client, code, headers, response):
-    headers = f'HTTP/1.0 {code} OK\r\nContent-type: text/html\r\n\r\n'
-    client.send(headers)
+    main_header = f'HTTP/1.0 {code} OK\r\nContent-type: text/html\r\n'
+    http_headers = __create_combined_headers(main_header, headers)
+
+    client.send(http_headers)
+
     client.send(response)
     client.close()
+
+
+def __create_combined_headers(main_header, headers):
+    combined_headers = main_header
+    bytes_headers = bytes(combined_headers, 'utf-8')
+
+    for header in headers:
+        bytes_headers += header+"\r\n"
+    bytes_headers += "\r\n\r\n"
+    return bytes_headers
 
 
 def __create_url_linker(url, methods, function):
@@ -66,7 +76,7 @@ def __create_root_site():
     html_root = "<html><body><h1>Server root:\n</h1>"
     html_root += "<h2>possible routes:\n</h2>"
     for entry in url_linker:
-        html_root += "<h3>- " + entry["route"] + "</h3>" + "\n"
+        html_root += "<h3>\t- " + entry["route"] + "</h3>" + "\n"
     html_root += "</body></html>"
 
     return html_root
@@ -87,17 +97,17 @@ def listen(socket):
     if function != None:
         # Check if method is defined
         if __validate_method(method, route) == False:
-            __send_respone(client, 405, http_headers, "405 Method not allowed")
+            __send_respone(client, 405, [], "405 Method not allowed")
         # If method is defined, send normal response
         else:
             code, headers, response = function(request)
-            __send_respone(client, code, http_headers, response)
+            __send_respone(client, code, headers, response)
     # if "/"- root url is not defined in url_linker send default response:
     elif route == "/":
-        __send_respone(client, 200, http_headers, html_root_view)
+        __send_respone(client, 200, [], html_root_view)
     else:
         with open("404.html", "r") as html_404:
-            __send_respone(client, 404, http_headers, html_404.read())
+            __send_respone(client, 404, [], html_404.read())
 
 
 def route(url, methods=['GET']):
