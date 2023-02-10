@@ -1,8 +1,9 @@
 # gerent
-Gerent is a simple and lightweight web-framework for MicroPython.
+Gerent is a simple and lightweight web-framework for MicroPython.  
 
-### pypi link:
+# pypi link:
 https://pypi.org/project/gerent/
+
 # TODO:
 - beautify pyproject.toml  
 - ✅ add post and put methods  
@@ -13,14 +14,19 @@ https://pypi.org/project/gerent/
 - add examples  
 - beutify micropython code?  
 - add unitest tests  
+- beautify web root site, add unified style  
+
+# Currently supported devices:  
+- Raspberry Pi Pico W  
+- ESP8266  
 
 # Example:
 ```python
-import argent, socket
+import gerent, socket
 
-@argent.route("/hello/world")
+@gerent.route("/hello/world")
 def hello_world(request):
-    return(200, {}, "Hello from Argent framework!")
+    return(200, {}, "Hello from gerent framework!")
 
 # create socket
 addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
@@ -29,9 +35,9 @@ s = socket.socket()
 s.bind(addr)
 s.listen(1)
 
-# run argent client
+# run gerent client
 while True:
-    argent.listen(s)
+    gerent.listen(s)
 ```
 # DOCS:
 ### Sample url_linker:
@@ -46,8 +52,8 @@ while True:
 ### Errors (TODO):
 ```python
 Traceback (most recent call last):
-  File "<stdin>", line 65, in <module>
-  File "argent.py", line 95, in listen
-  File "argent.py", line 8, in __get_route
+  File "<stdin>", line 28, in <module>
+  File "gerent.py", line 101, in listen
+  File "gerent.py", line 11, in __get_route
 IndexError: list index out of range
 ```
