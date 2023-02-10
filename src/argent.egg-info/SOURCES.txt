@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+src/__init__.py
+src/argent.py
+src/argent.egg-info/PKG-INFO
+src/argent.egg-info/SOURCES.txt
+src/argent.egg-info/dependency_links.txt
+src/argent.egg-info/top_level.txt
+tests/test_web_functionality.py

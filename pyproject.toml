@@ -3,12 +3,12 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "argent"
+name = "gerent"
 version = "0.0.1"
 authors = [
   { name="Tomasz Jarko", email="tomasz.jarko@gmail.com" },
 ]
-description = "A MicroPython web-framework"
+description = "A simple and lightweight MicroPython web-framework"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [
@@ -18,5 +18,5 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/Tomson601/argent"
-"Bug Tracker" = "https://github.com/Tomson601/argent/issues"
+"Homepage" = "https://github.com/Tomson601/gerent"
+"Bug Tracker" = "https://github.com/Tomson601/gerent/issues"
