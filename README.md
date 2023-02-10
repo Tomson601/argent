@@ -38,4 +38,12 @@ while True:
   {'route': '/controll/pico', 'function': <function hello_world at 0x2000c170>}  
   {'route': '/weather', 'function': <function hello_world at 0x2000c1f0>}  
   {'route': '/controll/esp8266', 'function': <function hello_world at 0x2000c270>}  
-  
+
+### Errors (TODO):
+```python
+Traceback (most recent call last):
+  File "<stdin>", line 65, in <module>
+  File "argent.py", line 95, in listen
+  File "argent.py", line 8, in __get_route
+IndexError: list index out of range
+```
