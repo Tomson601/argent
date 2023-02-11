@@ -16,6 +16,7 @@ https://pypi.org/project/gerent/
 - add unitest tests  
 - beautify web root site, add unified style  
 - query params  
+- optimize create_root_site  
 
 
 # Currently supported devices:  
@@ -43,21 +44,20 @@ while True:
 ```
 # Docs:
 How does it work?  
-
-### Example url_linker:
+While defining routes, for example:  
 ```python
-  {'route': '/hello/world', 'function': <function hello_world at 0x2000bf00>}  
-  {'route': '/api', 'function': <function hello_world at 0x2000c0f0>}  
-  {'route': '/controll/pico', 'function': <function hello_world at 0x2000c170>}  
-  {'route': '/weather', 'function': <function hello_world at 0x2000c1f0>}  
-  {'route': '/controll/esp8266', 'function': <function hello_world at 0x2000c270>}  
+@gerent.route("/hello/world", ['POST'])
+def hello_world(request):
+  return(200, {}, "Hello from gerent framework!")
 ```
-
-### Errors (TODO):
+Gerent backend creates an entry in url linker register:  
 ```python
-Traceback (most recent call last):
-  File "<stdin>", line 28, in <module>
-  File "gerent.py", line 101, in listen
-  File "gerent.py", line 11, in __get_route
-IndexError: list index out of range
+{'route': '/hello/world', 'methods': ['POST'], 'function': <function hello_world at 0x2000c1c0>}
 ```
+Url linker contains basic informations: route, avaliable methods and linked function for defined url.  
+While Gerent client is running in listening mode:  
+```python
+while True:
+  gerent.listen(socket)
+```
+it is listening for incoming traffic, analyzing requests and it's properly responding to client's requests.  

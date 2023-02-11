@@ -8,6 +8,8 @@ url_linker = []
 def __get_route(request):
     decoded_request = request.decode()
     response_array = decoded_request.split("\n")
+    if response_array == ['']:
+        return ''
     route = response_array[0].split(' ')[1]
 
     return route
