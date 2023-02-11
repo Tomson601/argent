@@ -54,10 +54,10 @@ Gerent backend creates an entry in url linker register:
 ```python
 {'route': '/hello/world', 'methods': ['POST'], 'function': <function hello_world at 0x2000c1c0>}
 ```
-Url linker contains basic informations: route, avaliable methods and linked function for defined url.  
-While Gerent client is running in listening mode:  
+Url linker contains basic informations about route, avaliable methods and linked function for defined url.  
+While Gerent client is running:  
 ```python
 while True:
   gerent.listen(socket)
 ```
-it is listening for incoming traffic, analyzing requests and it's properly responding to client's requests.  
+it's listening for incoming traffic, analyzing requests and properly responding to client's requests.  
