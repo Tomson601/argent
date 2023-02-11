@@ -15,6 +15,8 @@ https://pypi.org/project/gerent/
 - beutify micropython code?  
 - add unitest tests  
 - beautify web root site, add unified style  
+- query params  
+
 
 # Currently supported devices:  
 - Raspberry Pi Pico W  
@@ -26,7 +28,7 @@ import gerent, socket
 
 @gerent.route("/hello/world")
 def hello_world(request):
-    return(200, {}, "Hello from gerent framework!")
+  return(200, {}, "Hello from gerent framework!")
 
 # create socket
 addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
@@ -37,10 +39,12 @@ s.listen(1)
 
 # run gerent client
 while True:
-    gerent.listen(s)
+  gerent.listen(s)
 ```
-# DOCS:
-### Sample url_linker:
+# Docs:
+How does it work?  
+
+### Example url_linker:
 ```python
   {'route': '/hello/world', 'function': <function hello_world at 0x2000bf00>}  
   {'route': '/api', 'function': <function hello_world at 0x2000c0f0>}  
